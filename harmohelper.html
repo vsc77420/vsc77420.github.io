@@ -6,6 +6,30 @@
     <title>Pattern Calculator</title>
   </head>
   <body>
+    <h2>Pattern Calculator</h2>
+
+    <!-- Form to input parameters -->
+    <form id="parameterForm">
+        <label for="X">X:</label>
+        <input type="number" step="any" id="X" name="X" value=""><br>
+
+        <label for="A">A:</label>
+        <input type="number" step="any" id="A" name="A" value=""><br>
+
+        <label for="B">B:</label>
+        <input type="number" step="any" id="B" name="B" value=""><br>
+
+        <label for="C">C:</label>
+        <input type="number" step="any" id="C" name="C" value=""><br>
+
+        <label for="leeway">Leeway:</label>
+        <input type="number" step="any" id="leeway" name="leeway" value=""><br>
+
+        <button type="submit">Calculate</button>
+    </form>
+
+    <h3>Result:</h3>
+    <pre id="jsonOutput"></pre>
 <pre id="jsonOutput"></pre>
     <script>
       // Function to parse query parameters from URL
@@ -421,26 +445,43 @@
       }
 
 
-      function main() {
-        const params = parseQueryParams();
-        const X = parseFloat(params["X"]);
-        const A = parseFloat(params["A"]);
-        const B = parseFloat(params["B"]);
-        const C = parseFloat(params["C"]);
-        const leeway = parseFloat(params["leeway"]);
-  
-        // Check if any of the required parameters are missing
-        if (isNaN(X) || isNaN(A) || isNaN(B) || isNaN(C) || isNaN(leeway)) {
-          console.error("One or more parameters are missing or invalid.");
-          return;
+      // Main function to handle form submission and display result
+        function handleFormSubmit(event) {
+            event.preventDefault(); // Prevent default form submission behavior
+
+            // Get form values
+            const X = parseFloat(document.getElementById("X").value);
+            const A = parseFloat(document.getElementById("A").value);
+            const B = parseFloat(document.getElementById("B").value);
+            const C = parseFloat(document.getElementById("C").value);
+            const leeway = parseFloat(document.getElementById("leeway").value);
+
+            // Call the calculation function
+            const result = calculatePattern(X, A, B, C, leeway);
+            console.log(result);
+
+            // Output the result as JSON with indentation
+            document.getElementById("jsonOutput").textContent = JSON.stringify(result, null, 4);
         }
-        // Call the calculation function
-        const result = calculatePattern(X, A, B, C, leeway);
-        console.log(result);
-        // Pretty print JSON data and display on the page
-        document.getElementById("jsonOutput").textContent = JSON.stringify(result, null, 4);
- 
-      }
+
+     // Main function to handle input and display result
+        function main() {
+            const params = parseQueryParams();
+
+            // Fill form fields with default values from query parameters
+            document.getElementById("X").value = params["X"] || "";
+            document.getElementById("A").value = params["A"] || "";
+            document.getElementById("B").value = params["B"] || "";
+            document.getElementById("C").value = params["C"] || "";
+            document.getElementById("leeway").value = params["leeway"] || "";
+
+            // Submit form when loaded with default values
+            handleFormSubmit(new Event('submit'));
+
+            // Add form submit event listener
+            document.getElementById("parameterForm").addEventListener("submit", handleFormSubmit);
+        }
+
       window.onload = main;
 
 
