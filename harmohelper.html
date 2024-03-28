@@ -6,7 +6,7 @@
     <title>Pattern Calculator</title>
   </head>
   <body>
-
+<pre id="jsonOutput"></pre>
     <script>
       // Function to parse query parameters from URL
       function parseQueryParams() {
@@ -437,8 +437,9 @@
         // Call the calculation function
         const result = calculatePattern(X, A, B, C, leeway);
         console.log(result);
-            // Output the result as JSON directly in the response body
-            document.body.textContent = JSON.stringify(result, null, 2);
+        // Pretty print JSON data and display on the page
+        document.getElementById("jsonOutput").textContent = JSON.stringify(result, null, 4);
+ 
       }
       window.onload = main;
 
