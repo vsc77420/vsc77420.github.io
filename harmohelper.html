@@ -438,7 +438,7 @@
         const result = calculatePattern(X, A, B, C, leeway);
         console.log(result);
             // Output the result as JSON directly in the response body
-            document.body.textContent = JSON.stringify(result);
+            document.body.textContent = JSON.stringify(result, null, 2);
       }
       window.onload = main;
 
