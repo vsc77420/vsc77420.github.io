@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pattern Calculator</title>
+  </head>
+  <body>
+
+    <script>
+      // Function to parse query parameters from URL
+      function parseQueryParams() {
+        const queryParams = new URLSearchParams(window.location.search);
+        const params = {};
+        for (const [key, value] of queryParams) {
+          params[key] = value;
+        }
+        console.log(params);
+        return params;
+      }
+
+     
+
+      const dataset = [
+        {
+          Pattern_Name: "Max Gartley",
+          XBmin: 0.382,
+          XBmax: 0.618,
+          ACmin: 0.382,
+          ACmax: 0.886,
+          BDmin: 1.128,
+          BDmax: 2.236,
+          XDmin: 0.618,
+          XDmax: 0.786,
+        },
+        {
+          Pattern_Name: "BAT",
+          XBmin: 0.382,
+          XBmax: 0.5,
+          ACmin: 0.382,
+          ACmax: 0.886,
+          BDmin: 1.618,
+          BDmax: 2.618,
+          XDmin: 0.886,
+          XDmax: 0.886,
+        },
+        {
+          Pattern_Name: "Max Bat",
+          XBmin: 0.382,
+          XBmax: 0.618,
+          ACmin: 0.382,
+          ACmax: 0.886,
+          BDmin: 1.272,
+          BDmax: 2.618,
+          XDmin: 0.886,
+          XDmax: 0.886,
+        },
+        {
+          Pattern_Name: "Alt Bat",
+          XBmin: 0.382,
+          XBmax: 0.382,
+          ACmin: 0.382,
+          ACmax: 0.886,
+          BDmin: 2,
+          BDmax: 3.618,
+          XDmin: 1.128,
+          XDmax: 1.128,
+        },
+        {
+          Pattern_Name: "Crab",
+          XBmin: 0.382,
+          XBmax: 0.618,
+          ACmin: 0.382,
+          ACmax: 0.886,
+          BDmin: 2.24,
+          BDmax: 3.618,
+          XDmin: 1.618,
+          XDmax: 1.618,
+        },
+        {
+          Pattern_Name: "Lenoardo",
+          XBmin: 0.5,
+          XBmax: 0.5,
+          ACmin: 0.382,
+          ACmax: 0.886,
+          BDmin: 1.128,
+          BDmax: 2.618,
+          XDmin: 0.786,
+          XDmax: 0.786,
+        },
+        {
+          Pattern_Name: "Gartley",
+          XBmin: 0.618,
+          XBmax: 0.618,
+          ACmin: 0.382,
+          ACmax: 0.886,
+          BDmin: 1.272,
+          BDmax: 1.618,
+          XDmin: 0.786,
+          XDmax: 0.786,
+        },
+        {
+          Pattern_Name: "Max Butterfly",
+          XBmin: 0.618,
+          XBmax: 0.886,
+          ACmin: 0.382,
+          ACmax: 0.886,
+          BDmin: 1.272,
+          BDmax: 2.618,
+          XDmin: 1.272,
+          XDmax: 1.618,
+        },
+        {
+          Pattern_Name: "Butterfly",
+          XBmin: 0.786,
+          XBmax: 0.786,
+          ACmin: 0.382,
+          ACmax: 0.886,
+          BDmin: 1.618,
+          BDmax: 2.618,
+          XDmin: 1.272,
+          XDmax: 1.618,
+        },
+        {
+          Pattern_Name: "Deep Crab",
+          XBmin: 0.886,
+          XBmax: 0.886,
+          ACmin: 0.382,
+          ACmax: 0.886,
+          BDmin: 2.618,
+          BDmax: 3.618,
+          XDmin: 1.618,
+          XDmax: 1.618,
+        },
+        {
+          Pattern_Name: "Anti Nen Star",
+          XBmin: 0.5,
+          XBmax: 0.786,
+          ACmin: 0.467,
+          ACmax: 0.707,
+          BDmin: 1.618,
+          BDmax: 2.618,
+          XDmin: 0.786,
+          XDmax: 0.786,
+        },
+        {
+          Pattern_Name: "Anti Cypher",
+          XBmin: 0.5,
+          XBmax: 0.786,
+          ACmin: 0.467,
+          ACmax: 0.707,
+          BDmin: 1.618,
+          BDmax: 2.618,
+          XDmin: 1.272,
+          XDmax: 1.272,
+        },
+        {
+          Pattern_Name: "Alt Shark 2",
+          XBmin: 0.446,
+          XBmax: 0.618,
+          ACmin: 0.618,
+          ACmax: 0.886,
+          BDmin: 1.618,
+          BDmax: 2.618,
+          XDmin: 0.886,
+          XDmax: 0.886,
+        },
+        {
+          Pattern_Name: "Alt Shark 1",
+          XBmin: 0.446,
+          XBmax: 0.618,
+          ACmin: 0.618,
+          ACmax: 0.886,
+          BDmin: 1.618,
+          BDmax: 2.618,
+          XDmin: 1.128,
+          XDmax: 1.128,
+        },
+        {
+          Pattern_Name: "Butterfly 113",
+          XBmin: 0.786,
+          XBmax: 1,
+          ACmin: 0.618,
+          ACmax: 1,
+          BDmin: 1.128,
+          BDmax: 1.618,
+          XDmin: 1.128,
+          XDmax: 1.128,
+        },
+        {
+          Pattern_Name: "Navarro 200",
+          XBmin: 0.382,
+          XBmax: 0.786,
+          ACmin: 0.886,
+          ACmax: 1.128,
+          BDmin: 0.886,
+          BDmax: 3.618,
+          XDmin: 0.886,
+          XDmax: 1.128,
+        },
+        {
+          Pattern_Name: "Anti Crab",
+          XBmin: 0.276,
+          XBmax: 0.446,
+          ACmin: 1.128,
+          ACmax: 2.618,
+          BDmin: 1.618,
+          BDmax: 2.618,
+          XDmin: 0.618,
+          XDmax: 0.618,
+        },
+        {
+          Pattern_Name: "Anti Butterfly",
+          XBmin: 0.382,
+          XBmax: 0.618,
+          ACmin: 1.128,
+          ACmax: 2.618,
+          BDmin: 1.272,
+          BDmax: 1.272,
+          XDmin: 0.618,
+          XDmax: 0.786,
+        },
+        {
+          Pattern_Name: "Shark 1",
+          XBmin: 0.382,
+          XBmax: 0.618,
+          ACmin: 1.128,
+          ACmax: 1.618,
+          BDmin: 1.618,
+          BDmax: 2.236,
+          XDmin: 0.886,
+          XDmax: 0.886,
+        },
+        {
+          Pattern_Name: "Shark 2",
+          XBmin: 0.382,
+          XBmax: 0.618,
+          ACmin: 1.128,
+          ACmax: 1.618,
+          BDmin: 1.618,
+          BDmax: 2.236,
+          XDmin: 1.128,
+          XDmax: 1.128,
+        },
+        {
+          Pattern_Name: "Anti Bat",
+          XBmin: 0.382,
+          XBmax: 0.618,
+          ACmin: 1.128,
+          ACmax: 2.618,
+          BDmin: 2,
+          BDmax: 2.618,
+          XDmin: 1.128,
+          XDmax: 1.128,
+        },
+        {
+          Pattern_Name: "Anti Gartley",
+          XBmin: 0.618,
+          XBmax: 0.786,
+          ACmin: 1.128,
+          ACmax: 2.618,
+          BDmin: 1.618,
+          BDmax: 1.618,
+          XDmin: 1.272,
+          XDmax: 1.272,
+        },
+        {
+          Pattern_Name: "Cypher",
+          XBmin: 0.382,
+          XBmax: 0.618,
+          ACmin: 1.272,
+          ACmax: 1.414,
+          BDmin: 1.272,
+          BDmax: 2,
+          XDmin: 0.786,
+          XDmax: 0.786,
+        },
+        {
+          Pattern_Name: "Nen Star",
+          XBmin: 0.382,
+          XBmax: 0.618,
+          ACmin: 1.414,
+          ACmax: 2.14,
+          BDmin: 1.272,
+          BDmax: 2,
+          XDmin: 1.272,
+          XDmax: 1.272,
+        },
+      ];
+
+      const result = [];
+
+      // Function to calculate pattern based on input values
+      function calculatePattern(X, A, B, C, leeway) {
+        dataset.forEach((pattern) => {
+          const XB = Math.abs(B - A) / Math.abs(A - X);
+          const AC = Math.abs(C - B) / Math.abs(A - B);
+
+          const Dmax_BDmin =
+            X < A
+              ? -(pattern.BDmin - leeway) * (C - B) + C
+              : (pattern.BDmin + leeway) * (B - C) + C;
+          const Dmin_BDmin =
+            X < A
+              ? -(pattern.BDmin + leeway) * (C - B) + C
+              : (pattern.BDmin - leeway) * (B - C) + C;
+          const Dmax_BDmax =
+            X < A
+              ? -(pattern.BDmax - leeway) * (C - B) + C
+              : (pattern.BDmax + leeway) * (B - C) + C;
+          const Dmin_BDmax =
+            X < A
+              ? -(pattern.BDmax + leeway) * (C - B) + C
+              : (pattern.BDmax - leeway) * (B - C) + C;
+          const Dmax_XDmin =
+            X < A
+              ? -(pattern.XDmin - leeway) * Math.abs(A - X) + A
+              : (pattern.XDmin + leeway) * Math.abs(X - A) + A;
+          const Dmin_XDmin =
+            X < A
+              ? -(pattern.XDmin + leeway) * Math.abs(A - X) + A
+              : (pattern.XDmin - leeway) * Math.abs(X - A) + A;
+          const Dmax_XDmax =
+            X < A
+              ? -(pattern.XDmax - leeway) * Math.abs(A - X) + A
+              : (pattern.XDmax + leeway) * Math.abs(X - A) + A;
+          const Dmin_XDmax =
+            X < A
+              ? -(pattern.XDmax + leeway) * Math.abs(A - X) + A
+              : (pattern.XDmax - leeway) * Math.abs(X - A) + A;
+
+          let perfectXB = false;
+          let perfectAC = false;
+
+          if (
+            (XB >= pattern.XBmin - leeway && XB <= pattern.XBmin + leeway) ||
+            (XB >= pattern.XBmax - leeway && XB <= pattern.XBmax + leeway)
+          ) {
+            perfectXB = true;
+          }
+
+          if (
+            (AC >= pattern.ACmin - leeway && AC <= pattern.ACmin + leeway) ||
+            (AC >= pattern.ACmax - leeway && AC <= pattern.ACmax + leeway)
+          ) {
+            perfectAC = true;
+          }
+
+          if (perfectXB && perfectAC) {
+            const jsonObject = {
+              pattern_name: pattern.Pattern_Name,
+              XB: XB,
+              AC: AC,
+              D: [],
+            };
+
+            const calculateD = (min, max) => {
+              if (
+                min !== "" &&
+                min !== undefined &&
+                max !== "" &&
+                max !== undefined
+              ) {
+                const Dmin = min;
+                const Dmax = max;
+                const distCB = Math.abs(C - B);
+                const distAX = Math.abs(A - X);
+
+                const distAD = Math.abs(A - Dmin);
+                const distDC = Math.abs(Dmin - C);
+
+                const Dmin_BD = distCB !== 0 ? distDC / distCB : 0;
+                const Dmin_XD = distAX !== 0 ? distAD / distAX : 0;
+
+                const distADmax = Math.abs(A - Dmax);
+                const distDCmax = Math.abs(Dmax - C);
+
+                const Dmax_BD = distCB !== 0 ? distDCmax / distCB : 0;
+                const Dmax_XD = distAX !== 0 ? distADmax / distAX : 0;
+                let perfectBD = false;
+                let perfectXD = false;
+                if (
+                  (Dmin_BD >= pattern.BDmin - leeway &&
+                    Dmin_BD <= pattern.BDmin + leeway) ||
+                  (Dmax_BD >= pattern.BDmax - leeway &&
+                    Dmax_BD <= pattern.BDmax + leeway)
+                ) {
+                  perfectBD = true;
+                }
+
+                if (
+                  (Dmin_XD >= pattern.XDmin - leeway &&
+                    Dmin_XD <= pattern.XDmin + leeway) ||
+                  (Dmax_BD >= pattern.XDmax - leeway &&
+                    Dmax_BD <= pattern.XDmax + leeway)
+                ) {
+                  perfectXD = true;
+                }
+                if (perfectXD && perfectBD) {
+                  jsonObject.D.push({
+                    Dmin: Dmin,
+                    Dmax: Dmax,
+                    Dmin_BD: Dmin_BD.toFixed(3),
+                    Dmin_XD: Dmin_XD.toFixed(3),
+                    Dmax_BD: Dmax_BD.toFixed(3),
+                    Dmax_XD: Dmax_XD.toFixed(3),
+                  });
+                }
+              }
+            };
+
+            calculateD(Dmin_BDmin, Dmax_BDmin);
+            calculateD(Dmin_XDmin, Dmax_XDmin);
+            calculateD(Dmin_BDmax, Dmax_BDmax);
+            calculateD(Dmin_XDmax, Dmax_XDmax);
+
+            result.push(jsonObject);
+          }
+        });
+        return result;
+      }
+
+
+      function main() {
+        const params = parseQueryParams();
+        const X = parseFloat(params["X"]);
+        const A = parseFloat(params["A"]);
+        const B = parseFloat(params["B"]);
+        const C = parseFloat(params["C"]);
+        const leeway = parseFloat(params["leeway"]);
+  
+        // Check if any of the required parameters are missing
+        if (isNaN(X) || isNaN(A) || isNaN(B) || isNaN(C) || isNaN(leeway)) {
+          console.error("One or more parameters are missing or invalid.");
+          return;
+        }
+        // Call the calculation function
+        const result = calculatePattern(X, A, B, C, leeway);
+        console.log(result);
+            // Output the result as JSON directly in the response body
+            document.body.textContent = JSON.stringify(result);
+      }
+      window.onload = main;
+
+
+    </script>
+
+  </body>
+</html>
